@@ -1,0 +1,23 @@
+<h1>New user</h1>
+
+<% form_for(@user) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :countrycode %><br />
+    <%= f.text_field :countrycode %>
+  </p>
+  <p>
+    <%= f.label :areacode %><br />
+    <%= f.text_field :areacode %>
+  </p>
+  <p>
+    <%= f.label :primary_number %><br />
+    <%= f.text_field :primary_number %>
+  </p>
+  <p>
+    <%= f.submit "Create" %>
+  </p>
+<% end %>
+
+<%= link_to 'Back', users_path %>
