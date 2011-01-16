@@ -1,0 +1,16 @@
+<%#
+# To change this template, choose Tools | Templates
+# and open the template in the editor.
+%>
+
+<%= "generate.html" %>
+
+<h1>Hi</h1>
+
+Cell Phone : <%= @primarynumber.ljust(8, ' ') %> <br>
+Challenge Number : <%= @randnumber %>
+
+<form action="/verify/check" method="post">
+Type Verification Code: <input name="respnumber" type="text" /><br />
+<input type="submit" value="Submit" />
+</form>
