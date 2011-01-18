@@ -3,7 +3,16 @@
 # and open the template in the editor.
 %>
 
-
 <% if flash[:notice] -%>
   <%= flash[:notice] %>
 <% end -%>
+<h2>Enter a cellphone number and try again:</h2>
+
+
+<% form_tag({:action => :generate}, {:method => :post}) do %>
+
+Cellphone Number: <%= text_field_tag :primarynumber %>
+
+<%= submit_tag "Submit" %>
+
+<% end %>
