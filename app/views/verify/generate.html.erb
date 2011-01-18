@@ -10,7 +10,11 @@
 Cell Phone : <%= @primarynumber.ljust(8, ' ') %> <br>
 Challenge Number : <%= @randnumber %>
 
-<form action="/verify/check" method="post">
-Type Verification Code: <input name="respnumber" type="text" /><br />
-<input type="submit" value="Submit" />
-</form>
+
+<% form_tag({:action => :check}, {:method => :post}) do %>
+
+Type Verification Code: <%= text_field_tag :respnumber %>
+
+<%= submit_tag "Submit" %>
+
+<% end %>

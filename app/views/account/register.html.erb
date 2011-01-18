@@ -1,0 +1,14 @@
+<%#
+# To change this template, choose Tools | Templates
+# and open the template in the editor.
+%>
+
+<%= "register.html" %>
+
+Username: <%=h @username %> <br />
+Password: <%=h @password %> <br />
+Confirm Password: <%=h @confirm_password %> <br />
+Ads Freq: <%=h @ads_freq %> <br />
+<%  for category in @categories %>
+  <%=h category.name %> <br />
+<% end %>
