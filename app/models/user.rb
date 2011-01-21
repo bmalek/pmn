@@ -3,32 +3,39 @@ class User < ActiveRecord::Base
   # For security pruposes, just to say that what values can be accessed via params[:*]
   #attr_accessible :username, :password, :primarynumber, :password_confirmation, :challenge_code
 
-  validates_presence_of     :primarynumber, :username, :password
-  validates_uniqueness_of   :primarynumber, :username
-  #validates_acceptance_of   :terms_of_service, :on => :create
-  #validates_confirmation_of :password, :email_address, :on => :create
+  #before_validation :is_authenticated?
 
-  attr_accessor :password_confirmation
+  #VALIDATIONS***************************************************************
+  validates_presence_of     :primarynumber, :username, :password
+
+  validates_uniqueness_of   :primarynumber, :username
+  #validates_acceptance_of  :terms_of_service, :on => :create
+
+  validates_format_of       :username, :with => /^([a-z0-9_]{4,16})$/i,
+    :message => "must be 4 to 16 letters, numbers or underscores and have no spaces"
+
+  validates_format_of       :password, :with => /^([\x20-\x7E]){4,16}$/,
+    :message => "must be 4 to 16 characters"
+
   validates_confirmation_of :password
 
+  attr_accessor :password_confirmation
+  
+  #FILTERS******************************************************************
   before_save :scrub_username
+  after_save :flush_passwords
 
-  def validate
-    errors.add_to_base("Missing password" ) if password_hash.blank?
-  end
 
-  def self.authenticate(username, password)
+  #CLASS METHODS************************************************************
+
+  def self.find_by_username_and_password(username, password)
     user = self.find_by_username(username)
-    if user
-      expected_password = encrypted_password(password, user.password_salt)
-      if user.password_hash != expected_password
-        user = nil
-      end
+    if user and user.password_hash == encrypted_password(password, user.password_salt)
+      return user
     end
-    user
   end
- 
 
+  #INSTANCE METHODS*********************************************************
   def generate_challenge_code    
     charset = %w{A B C D E F G H J K L M N P Q R T V W X Y Z}
     (0...4).map{ charset.to_a[rand(charset.size)] }.join
@@ -38,10 +45,15 @@ class User < ActiveRecord::Base
     self.response_code.upcase! == cc
   end
 
+
+  #VIRTUAL ATTRIBUTES********************************************************
+
+  # custom setter method (input to database) needed fot the controller
   def response_code=(rc)
     @response_code = rc
   end
 
+  #custom getter method (output from database) needed for the view
   def response_code
     @response_code
   end
@@ -67,6 +79,7 @@ class User < ActiveRecord::Base
   end
 
 
+  # PRIVATE METHODS*********************************************************
   private
 
   def self.encrypted_password(password, salt)
@@ -80,6 +93,10 @@ class User < ActiveRecord::Base
 
   def scrub_username
     self.username.downcase!
+  end
+
+  def flush_passwords
+    @password = @password_confirmation = nil
   end
 
 end
