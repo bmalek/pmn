@@ -1,0 +1,37 @@
+<h1>Verify new user</h1>
+
+<%=h @challenge_code %> Hi
+
+<% form_for @user do |f| %>
+  <%= f.error_messages %>
+  
+  <p>    
+    <%= f.label :username %><br />
+    <%= f.text_field :username %>
+  </p>
+  <p>
+    <%= f.label :password %><br />
+    <%= f.password_field :password %>
+  </p>
+
+  <p>
+    <%= f.label :password_confirmation %><br />
+    <%= f.password_field :password_confirmation %>
+  </p>
+  
+  <p>
+    <%= f.label :response_code %><br />
+    <%= f.text_field :response_code %>
+  </p>
+  <p>
+    <%= f.hidden_field :countrycode %>
+    <%= f.hidden_field :areacode %>
+    <%= f.hidden_field :primarynumber %>
+  </p>
+  
+  <p>
+    <%= f.submit "Create" %>
+  </p>
+<% end %>
+
+<%= link_to 'Back', users_path %>
