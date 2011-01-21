@@ -1,6 +1,9 @@
 class User < ActiveRecord::Base
 
-  validates_presence_of     :primarynumber
+  # For security pruposes, just to say that what values can be accessed via params[:*]
+  #attr_accessible :username, :password, :primarynumber, :password_confirmation, :challenge_code
+
+  validates_presence_of     :primarynumber, :username, :password
   validates_uniqueness_of   :primarynumber, :username
   #validates_acceptance_of   :terms_of_service, :on => :create
   #validates_confirmation_of :password, :email_address, :on => :create
@@ -8,12 +11,14 @@ class User < ActiveRecord::Base
   attr_accessor :password_confirmation
   validates_confirmation_of :password
 
+  before_save :scrub_username
+
   def validate
     errors.add_to_base("Missing password" ) if password_hash.blank?
   end
 
   def self.authenticate(username, password)
-    user = self.find(:first, :conditions => [' username = ?' , username])
+    user = self.find_by_username(username)
     if user
       expected_password = encrypted_password(password, user.password_salt)
       if user.password_hash != expected_password
@@ -21,6 +26,24 @@ class User < ActiveRecord::Base
       end
     end
     user
+  end
+ 
+
+  def generate_challenge_code    
+    charset = %w{A B C D E F G H J K L M N P Q R T V W X Y Z}
+    (0...4).map{ charset.to_a[rand(charset.size)] }.join
+  end
+
+  def verified_response_code?(cc)
+    self.response_code.upcase! == cc
+  end
+
+  def response_code=(rc)
+    @response_code = rc
+  end
+
+  def response_code
+    @response_code
   end
 
   # 'password' is a virtual attribute
@@ -31,10 +54,12 @@ class User < ActiveRecord::Base
   #virtual attribute of the model—it looks like an attribute to our application, but
   #it isn’t persisted into the database.
 
+  #custom getter method (output from database)
   def password
     @password
   end
 
+  # custom setter method (input to database)
   def password=(pwd)
     @password = pwd
     create_new_salt
@@ -51,6 +76,10 @@ class User < ActiveRecord::Base
 
   def create_new_salt
     self.password_salt = self.object_id.to_s + rand.to_s
+  end
+
+  def scrub_username
+    self.username.downcase!
   end
 
 end
