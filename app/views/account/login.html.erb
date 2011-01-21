@@ -9,7 +9,7 @@
 	<div id="notice" ><%= flash[:notice] %></div>
 <% end -%>
 
-<% form_tag({:action => :login}, {:method => :post}) do %>
+<% form_tag({:controller => :users, :action => :login}, {:method => :post}) do %>
 <p>
 Username: <%= text_field_tag :username %>
 </p>

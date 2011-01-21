@@ -16,12 +16,9 @@ class ApplicationController < ActionController::Base
  private
 
  def logged_in?
-   unless session[:user]
-     flash[:notice] = "Please login first!"
-     redirect_to :controller => 'account', :action => 'login'
-   else
-    return true
-   end
+
+   local_request?
+      
  end # end of logged_in?
 
 

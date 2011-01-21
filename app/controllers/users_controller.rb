@@ -1,4 +1,7 @@
 class UsersController < ApplicationController
+
+  before_filter :logged_in?, :except => [:new, :verify, :create]
+
   # GET /users
   # GET /users.xml
   def index
@@ -21,6 +24,18 @@ class UsersController < ApplicationController
     end
   end
 
+  # POST /users/login
+  # POST /users/login.xml
+  def login
+    @user = User.find_by_username_and_password(params[:username], params[:password]) #(params[:user])
+    #session[:user_id] ||= @user.id 
+
+    respond_to do |format|
+      format.html # login.html.erb
+      format.xml  { render :xml => @user } #.errors, :status => :unprocessable_entity }
+    end
+  end
+
   # GET /users/new
   # GET /users/new.xml
   def new
@@ -32,8 +47,8 @@ class UsersController < ApplicationController
     end
   end
 
-  # POST /users/verify/1
-  # POST /users/verify/1.xml
+  # POST /users/verify
+  # POST /users/verify.xml
   def verify
     @user = User.new(params[:user])    
     @challenge_code = @user.generate_challenge_code
