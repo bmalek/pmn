@@ -1,0 +1,15 @@
+<%#
+# To change this template, choose Tools | Templates
+# and open the template in the editor.
+%>
+
+<%= "home.html" %>
+
+<% form_tag '/users/login' do %>
+  Username: <%= text_field_tag :username %> <br />
+
+  Password: <%= password_field_tag :password %> <br />
+
+  <%= submit_tag 'Login' %>
+<% end %>
+
