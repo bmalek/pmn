@@ -4,20 +4,18 @@
   <%= f.error_messages %>
 
   <p>
-    <%= f.label :username %><br />
-    <%= f.text_field :username %>
-  </p>  
-  <p>
-    <%= f.label :primarynumber %><br />
-    <%= f.text_field :primarynumber %>
+    <%=h @user.username %> 
   </p>
   <p>
-    <%= f.label :areacode %><br />
-    <%= f.text_field :areacode %>
+    +<%=h @user.countrycode %> (<%=h @user.areacode %>) <%=h @user.primarynumber %>
   </p>
   <p>
-    <%= f.label :countrycode %><br />
-    <%= f.text_field :countrycode %>
+    <%= f.label :password %><br />
+    <%= f.password_field :password %>
+  </p>
+  <p>
+    <%= f.label :password_confirmation %><br />
+    <%= f.password_field :password_confirmation %>
   </p>
   <p>
     <%= f.submit "Update" %>

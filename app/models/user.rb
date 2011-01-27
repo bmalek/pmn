@@ -1,5 +1,7 @@
 class User < ActiveRecord::Base
 
+  has_one :account, :dependent => :destroy
+
   # For security pruposes, just to say that what values can be accessed via params[:*]
   #attr_accessible :username, :password, :primarynumber, :password_confirmation, :challenge_code
 
@@ -43,6 +45,11 @@ class User < ActiveRecord::Base
 
   def verified_response_code?(cc)
     self.response_code.upcase! == cc
+  end
+
+  def add_account_save
+    self.account = Account.new(:frequency => '2')
+    self.save!
   end
 
 

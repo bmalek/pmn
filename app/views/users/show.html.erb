@@ -1,4 +1,4 @@
-<%=h @challenge_code %> Hi
+Hi <%=h @test %> 
 
 <p>
   <b>Username:</b>
@@ -19,7 +19,6 @@
   <b>Primary number:</b>
   <%=h @user.primarynumber %>
 </p>
-
 
 <%= link_to 'Edit', edit_user_path(@user) %> |
 <%= link_to 'Back', users_path %>

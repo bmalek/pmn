@@ -1,6 +1,8 @@
 class UsersController < ApplicationController
 
-  before_filter :logged_in?, :except => [:new, :verify, :create]
+  #require 'twiliolib'
+
+  before_filter :logged_in?, :except => [:new, :verify, :create, :login, :home]
 
   # GET /users
   # GET /users.xml
@@ -13,10 +15,15 @@ class UsersController < ApplicationController
     end
   end
 
+  def home
+    
+  end
+
   # GET /users/1
   # GET /users/1.xml
   def show
-    @user = User.find(params[:id])
+    #@user = User.find_by_id(params[:id])
+    @test = TWILIO_CONFIG["api_version"]
 
     respond_to do |format|
       format.html # show.html.erb
@@ -28,11 +35,17 @@ class UsersController < ApplicationController
   # POST /users/login.xml
   def login
     @user = User.find_by_username_and_password(params[:username], params[:password]) #(params[:user])
-    #session[:user_id] ||= @user.id 
 
     respond_to do |format|
-      format.html # login.html.erb
-      format.xml  { render :xml => @user } #.errors, :status => :unprocessable_entity }
+
+      unless @user.nil?
+        session[:user_id] = @user.id
+        format.html { redirect_to(@user) } # login.html.erb
+        format.xml  { render :xml => @user } #.errors, :status => :unprocessable_entity }
+      else
+        format.html { render :action => "home" }
+        format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
+      end
     end
   end
 
@@ -63,7 +76,8 @@ class UsersController < ApplicationController
 
   # GET /users/1/edit
   def edit
-    @user = User.find(params[:id])
+    #@user = User.find_by_id(params[:id])
+    @account = @user.account
   end
 
   # POST /users
@@ -74,7 +88,8 @@ class UsersController < ApplicationController
     #@response_code = @user.response_code
 
     respond_to do |format|
-      if @user.verified_response_code?(@challenge_code) and @user.save
+      if @user.verified_response_code?(@challenge_code) and @user.add_account_save
+        session[:user_id] = @user.id #unless @user.nil?
         flash[:notice] = 'User was successfully created.'
         format.html { redirect_to(@user) }
         format.xml  { render :xml => @user, :status => :created, :location => @user }
@@ -88,7 +103,7 @@ class UsersController < ApplicationController
   # PUT /users/1
   # PUT /users/1.xml
   def update
-    @user = User.find_by_id(params[:id])
+    #@user = User.find_by_id(params[:id])
 
     respond_to do |format|
       if @user.update_attributes(params[:user])
@@ -105,7 +120,7 @@ class UsersController < ApplicationController
   # DELETE /users/1
   # DELETE /users/1.xml
   def destroy
-    @user = User.find_by_id(params[:id])
+    #@user = User.find_by_id(params[:id])
     @user.destroy
 
     respond_to do |format|
