@@ -1,6 +1,2 @@
 source :gemcutter
-<<<<<<< HEAD:Gemfile
-gem 'rails', '2.2.2'
-=======
 gem 'twiliolib'
->>>>>>> behzad_dev:Gemfile
