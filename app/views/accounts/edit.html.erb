@@ -9,7 +9,7 @@
 
   <p>
   <% for category in @categories %>
-    <%= check_box_tag 'category_ids[]', category.id %><b><%=h category.name %>:</b> <%=h category.description %><br />
+    <%= check_box_tag 'category_ids[]', category.id, @account.categories.include?(category) %><b><%=h category.name %>:</b> <%=h category.description %><br />
   <% end %>
   </p>
 

@@ -65,6 +65,7 @@ class AccountsController < ApplicationController
   # PUT /account[s]/1.xml
   def update
     @account = @user.account #Account.find(params[:id])
+    @account.categories = Category.find(params[:category_ids])
 
     respond_to do |format|
       if @account.update_attributes(params[:account])

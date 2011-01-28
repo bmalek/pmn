@@ -22,8 +22,7 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.xml
   def show
-    #@user = User.find_by_id(params[:id])
-    @test = TWILIO_CONFIG["api_version"]
+    #@user = User.find_by_id(params[:id])    
 
     respond_to do |format|
       format.html # show.html.erb
@@ -63,8 +62,9 @@ class UsersController < ApplicationController
   # POST /users/verify
   # POST /users/verify.xml
   def verify
-    @user = User.new(params[:user])    
-    @challenge_code = @user.generate_challenge_code
+    @user = User.new(params[:user])        
+    @resp = @user.send_sms # AFTER send_sms, the challenge_code is generated!
+    @challenge_code = @user.challenge_code
     session[:challenge_code] = @challenge_code
 
     respond_to do |format|
