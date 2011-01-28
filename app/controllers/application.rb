@@ -4,6 +4,10 @@
 class ApplicationController < ActionController::Base
   helper :all # include all helpers, all the time
 
+  #Facebook Connect
+  #before_filter :set_facebook_session
+  #helper_method :facebook_session
+
   # See ActionController::RequestForgeryProtection for details
   # Uncomment the :secret if you're not using the cookie session store
   protect_from_forgery # :secret => '24a924ba30b5bf3b25e29f4d585a5022'
@@ -17,7 +21,7 @@ class ApplicationController < ActionController::Base
 
  def logged_in?
 
-   local_request?
+   @user = User.find_by_id(session[:user_id]) #|| local_request?
       
  end # end of logged_in?
 

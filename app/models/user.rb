@@ -1,5 +1,9 @@
 class User < ActiveRecord::Base
 
+  require 'twiliolib'
+
+  has_one :account, :dependent => :destroy
+
   # For security pruposes, just to say that what values can be accessed via params[:*]
   #attr_accessible :username, :password, :primarynumber, :password_confirmation, :challenge_code
 
@@ -38,15 +42,49 @@ class User < ActiveRecord::Base
   #INSTANCE METHODS*********************************************************
   def generate_challenge_code    
     charset = %w{A B C D E F G H J K L M N P Q R T V W X Y Z}
-    (0...4).map{ charset.to_a[rand(charset.size)] }.join
+    self.challenge_code = (0...4).map{ charset.to_a[rand(charset.size)] }.join
   end
 
   def verified_response_code?(cc)
     self.response_code.upcase! == cc
   end
 
+  def add_account_save
+    self.account = Account.new(:frequency => '2')
+    self.save!
+  end
+
+  def send_sms
+    # Create a Twilio REST account object using your Twilio account ID and token
+    api_version = TWILIO_CONFIG["api_version"]
+    account_sid = TWILIO_CONFIG["account_sid"]
+    account_token = TWILIO_CONFIG["account_token"]
+    caller_id = TWILIO_CONFIG["caller_id"]
+    account = Twilio::RestAccount.new(account_sid, account_token)
+    generate_challenge_code
+
+    sms = {
+    'From' => caller_id.to_s,
+    'To' => self.countrycode.to_s + self.areacode.to_s + self.primarynumber.to_s,
+    'Body' => self.challenge_code.to_s,
+    }
+
+    account.request("/#{api_version}/Accounts/#{account_sid}/SMS/Messages", 'POST', sms)
+
+  end
+
 
   #VIRTUAL ATTRIBUTES********************************************************
+
+  # custom setter method (input to database) needed fot the controller
+  def challenge_code=(cc)
+    @challenge_code = cc
+  end
+
+  #custom getter method (output from database) needed for the view
+  def challenge_code
+    @challenge_code
+  end
 
   # custom setter method (input to database) needed fot the controller
   def response_code=(rc)

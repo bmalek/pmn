@@ -1,0 +1,11 @@
+<p>
+  <b>SMS Frequency:</b> 
+  <%=h @account.frequency %>
+</p>
+<p>
+  <% for category in @account.categories %>
+    <%=h category.name %>
+  <% end %>
+</p>
+<%= link_to 'Edit', edit_user_account_path %> |
+<%= link_to 'Back to User', @user %>
