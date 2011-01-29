@@ -3,9 +3,11 @@ class User < ActiveRecord::Base
   require 'twiliolib'
 
   has_one :account, :dependent => :destroy
+  has_and_belongs_to_many :roles
 
   # For security pruposes, just to say that what values can be accessed via params[:*]
-  #attr_accessible :username, :password, :primarynumber, :password_confirmation, :challenge_code
+  attr_accessible  :username, :password, :password_confirmation, 
+    :countrycode, :areacode, :primarynumber, :response_code
 
   #before_validation :is_authenticated?
 
@@ -26,8 +28,8 @@ class User < ActiveRecord::Base
   attr_accessor :password_confirmation
   
   #FILTERS******************************************************************
-  before_save :scrub_username
-  after_save :flush_passwords
+  before_save :scrub_username, :flush_passwords
+  #after_save :flush_passwords
 
 
   #CLASS METHODS************************************************************
@@ -45,8 +47,8 @@ class User < ActiveRecord::Base
     self.challenge_code = (0...4).map{ charset.to_a[rand(charset.size)] }.join
   end
 
-  def verified_response_code?(cc)
-    self.response_code.upcase! == cc
+  def verified_response_code?(challenge_code)
+    self.response_code.upcase! == challenge_code
   end
 
   def add_account_save
@@ -116,6 +118,12 @@ class User < ActiveRecord::Base
     self.password_hash = User.encrypted_password(self.password, self.password_salt)
   end
 
+  #OVERRIDE XML FOR SECURITY***************************************************
+  def to_xml(options = {})
+    default_only = [:id, :username, :countrycode, :areacode, :primarynumber]
+    options[:only] = (options[:only] || []) + default_only
+    super(options)
+  end
 
   # PRIVATE METHODS*********************************************************
   private
@@ -136,5 +144,5 @@ class User < ActiveRecord::Base
   def flush_passwords
     @password = @password_confirmation = nil
   end
-
+ 
 end

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110125221338) do
+ActiveRecord::Schema.define(:version => 20110128223941) do
 
   create_table "accounts", :force => true do |t|
     t.integer  "frequency"
@@ -24,6 +24,30 @@ ActiveRecord::Schema.define(:version => 20110125221338) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "account_id"
+  end
+
+  create_table "rights", :force => true do |t|
+    t.string   "name"
+    t.string   "controller"
+    t.string   "action"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "rights_roles", :id => false, :force => true do |t|
+    t.integer "right_id"
+    t.integer "role_id"
+  end
+
+  create_table "roles", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "roles_users", :id => false, :force => true do |t|
+    t.integer "role_id"
+    t.integer "user_id"
   end
 
   create_table "sessions", :force => true do |t|
