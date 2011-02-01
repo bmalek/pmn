@@ -1,7 +1,7 @@
 # Filters added to this controller apply to all controllers in the application.
 # Likewise, all the methods added will be available for all controllers.
 
-class ApplicationController < ActionController::Base
+class ApplicationController < ActionController::Base  
   helper :all # include all helpers, all the time
 
   #Facebook Connect
@@ -22,16 +22,16 @@ class ApplicationController < ActionController::Base
  def logged_in?
 
    unless @user = User.find_by_id(session[:user_id]) #|| local_request?
-     flash.now[:notice] = "You must logged in first!"
-     #redirect_to :controller => "users", :action => "home"
-     #return false
+     flash[:notice] = "You must logged in first!"
+     redirect_to :controller => "users", :action => "home"
+     return false
    end
       
  end # end of logged_in?
 
  def authorized?
   user = User.find_by_id(session[:user_id])
-  unless user.roles.detect{ |role|
+  unless user and user.roles.detect{ |role|
     role.rights.detect{ |right|
       right.action == action_name && right.controller == controller_name
       }

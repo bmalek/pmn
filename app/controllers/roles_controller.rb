@@ -34,7 +34,10 @@ class RolesController < ApplicationController
 
   # GET /roles/1/edit
   def edit
-    @role = Role.find(params[:id])
+    @role = Role.find(params[:id])        
+    @rights = Right.find(:all)
+    #@rights = @role.rights
+
   end
 
   # POST /roles
@@ -58,6 +61,7 @@ class RolesController < ApplicationController
   # PUT /roles/1.xml
   def update
     @role = Role.find(params[:id])
+    @role.rights = Right.find(params[:right_ids])
 
     respond_to do |format|
       if @role.update_attributes(params[:role])

@@ -40,10 +40,12 @@ class UsersController < ApplicationController
     respond_to do |format|
 
       unless @user.nil?
+        flash.now[:notice] = 'Successfully logged in!'
         session[:user_id] = @user.id
         format.html { redirect_to(@user) } # login.html.erb
         format.xml  { render :xml => @user } #.errors, :status => :unprocessable_entity }
       else
+        flash.now[:notice] = 'Login error, try again!'
         format.html { render :action => "home" }
         format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
       end

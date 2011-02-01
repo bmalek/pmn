@@ -1,11 +1,25 @@
 class RightsController < ApplicationController
   # GET /rights
   # GET /rights.xml
-  def index
+  def index    
     @rights = Right.find(:all)
 
     respond_to do |format|
       format.html # index.html.erb
+      format.xml  { render :xml => @rights }
+    end
+  end
+
+  # GET rights/synch
+  def synch
+    if @rights = Right.synchronize_with_controllers.find(:all)
+      flash[:notice] = 'Right table is syncrhonizaed and up-to-date.'
+    else
+      flash[:notice] = 'There was an error, contact the administrator!'
+    end
+
+    respond_to do |format|
+      format.html { redirect_to(rights_path) }# index.html.erb
       format.xml  { render :xml => @rights }
     end
   end
@@ -75,7 +89,8 @@ class RightsController < ApplicationController
   # DELETE /rights/1.xml
   def destroy
     @right = Right.find(params[:id])
-    @right.destroy
+    #@right.destroy
+    flash.now[:notice] = 'Contact the Admin to delete any right! this will delete controller from the ROOT Dir'
 
     respond_to do |format|
       format.html { redirect_to(rights_url) }

@@ -1,7 +1,7 @@
 ActionController::Routing::Routes.draw do |map|
   map.resources :roles
 
-  map.resources :rights
+  map.resources :rights, :collection => {:synch => :get}
 
   map.resources :accounts
 

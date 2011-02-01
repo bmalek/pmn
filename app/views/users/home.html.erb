@@ -11,8 +11,13 @@
   <b>Username:</b> <%= text_field_tag :username %> <br />
 
   <b>Password:</b> <%= password_field_tag :password %> <br />
-
-  <%= submit_tag 'Login' %>
   </p>
+
+  <p>
+    <%= submit_tag 'Login' %> | <%= link_to 'Register', new_user_path %>
+  </p>
+  
 <% end %>
+
+
 
