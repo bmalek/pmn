@@ -2,7 +2,7 @@ class UsersController < ApplicationController
 
   #require 'twiliolib'
 
-  before_filter :logged_in?, :except => [:new, :verify, :create, :login, :home]
+  before_filter :logged_in?, :only => [:index, :edit, :update, :show]
   #
 
   # GET /users
@@ -16,6 +16,7 @@ class UsersController < ApplicationController
     end
   end
 
+  # GET /users/home
   def home
     
   end
@@ -23,7 +24,7 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.xml
   def show
-    #@user = User.find_by_id(params[:id])    
+    #@user = User.find_by_id(session[:user_id]) 
 
     respond_to do |format|
       format.html # show.html.erb
@@ -91,10 +92,11 @@ class UsersController < ApplicationController
     respond_to do |format|
       if @user.verified_response_code?(@challenge_code) and @user.add_account_save
         session[:user_id] = @user.id #unless @user.nil?
-        flash[:notice] = 'User was successfully created.'
+        flash.now[:notice] = 'User was successfully created.'
         format.html { redirect_to(@user) }
         format.xml  { render :xml => @user, :status => :created, :location => @user }
       else
+        flash.now[:notice] = 'Invalid inputs, try again!'
         format.html { render :action => "new" }
         format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
       end
@@ -108,7 +110,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.update_attributes(params[:user])
-        flash[:notice] = 'User was successfully updated.'
+        flash.now[:notice] = 'User was successfully updated.'
         format.html { redirect_to(@user) }
         format.xml  { head :ok }
       else
@@ -128,5 +130,12 @@ class UsersController < ApplicationController
       format.html { redirect_to(users_url) }
       format.xml  { head :ok }
     end
+  end
+
+  # GET /users/logout
+  def logout
+    reset_session
+    flash[:notice] = "You have been logged out."
+    redirect_to root_url
   end
 end

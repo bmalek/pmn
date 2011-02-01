@@ -1,6 +1,4 @@
-class User < ActiveRecord::Base
-
-  require 'twiliolib'
+class User < ActiveRecord::Base  
 
   has_one :account, :dependent => :destroy
   has_and_belongs_to_many :roles
@@ -57,6 +55,9 @@ class User < ActiveRecord::Base
   end
 
   def send_sms
+
+    require 'twiliolib'
+    
     # Create a Twilio REST account object using your Twilio account ID and token
     api_version = TWILIO_CONFIG["api_version"]
     account_sid = TWILIO_CONFIG["account_sid"]

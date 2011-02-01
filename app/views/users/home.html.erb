@@ -1,15 +1,18 @@
-<%#
-# To change this template, choose Tools | Templates
-# and open the template in the editor.
-%>
+<h1>Login</h1>
 
-<%= "home.html" %>
+<p>
+  Enter your username and password to login:<br />
+  
+</p>
 
 <% form_tag '/users/login' do %>
-  Username: <%= text_field_tag :username %> <br />
 
-  Password: <%= password_field_tag :password %> <br />
+  <p>
+  <b>Username:</b> <%= text_field_tag :username %> <br />
+
+  <b>Password:</b> <%= password_field_tag :password %> <br />
 
   <%= submit_tag 'Login' %>
+  </p>
 <% end %>
 

@@ -5,13 +5,131 @@
 <head>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
   <title>Users: <%= controller.action_name %></title>
-  <%= stylesheet_link_tag 'scaffold' %>
+  <%= stylesheet_link_tag 'style' %>
 </head>
 <body>
 
-<p style="color: green"><%= flash[:notice] %></p>
+<div id="top">
+	<div id="insidetop">
+        <h4>Drop Down Menu</h4>
 
-<%= yield  %>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam. Lorem 			   		ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod temporall</p>
+
+        <h5><a href="#">Your Site Here</a></h5>
+        <h5><a href="#">Your Site Here</a></h5>
+        <h5><a href="#">Your Site Here</a></h5>
+
+    </div><!--insidetop-->
+</div><!-- top -->
+
+<div id="topline">
+	<div class="content">
+       <a><strong>PHORGET ME NOT</strong> </a>
+    </div>
+</div><!-- topline -->
+
+
+<div id="wrapper">
+
+    	<div class="content">
+
+             <div id="header">
+
+                    <h1><a href="#"><span>Never Miss Last Minute Discounts</span> </a></h1>
+
+                     <div id="menu">
+
+                        <ul>
+                          <li><%= link_to 'HOME', root_url %></li>
+                          <li><a href="#">DEALS</a></li>
+                          <li><a href="#">HOW IT WORKS?</a></li>
+                          <li><a href="#">BLOG</a></li>
+                          <li><%= link_to_if session[:user_id].nil?, 'LOGIN', :controller => 'users', :action => 'home' do
+                            link_to 'LOGOUT', :controller => 'users', :action => 'logout'
+                            end %>
+                          </li>
+                        </ul>
+
+                	</div><!-- menu -->
+
+             </div><!--header-->
+
+               <div class="sidebar">
+
+                <a href="#"><img src="images/sidebar.jpg" alt="" border="0" /></a>
+                <a href="#"><img src="images/sidebar.jpg" alt="" border="0" /></a>
+
+
+                <a href="#"><img src="images/sidebarmini.jpg" alt="" border="0" /></a>
+                <a href="#"><img src="images/sidebarmini.jpg" alt="" border="0" class="noright"  /></a>
+
+                <a href="#"><img src="images/sidebarmini.jpg" alt="" border="0" /></a>
+                <a href="#"><img src="images/sidebarmini.jpg" alt="" border="0" class="noright" /></a>
+
+                <a href="#"><img src="images/sidebarmini.jpg" alt="" border="0" /></a>
+                <a href="#"><img src="images/sidebarmini.jpg" alt="" border="0" class="noright"  /></a>
+
+
+             </div><!--sidebar-->
+
+             <div id="container">
+
+             	 <%= yield  %>
+
+             </div><!--container-->
+
+        </div><!--content-->
+
+    </div><!--wrapper-->
+
+<div id="footer">
+    	<div class="content">
+
+                 <div class="sidebar">
+
+                   		<a href="#"><img src="images/footerbox.png" alt="" border="0" /></a>
+                        <a href="#"><img src="images/footerbox.png" alt="" border="0" class="noright" /></a>
+
+                   </div><!--sidebar-->
+               <div id="left">
+            	<h3>SPONSORSHIP FRIENDS</h3>
+                    <p><a href="#">Website Templates</a></p>
+                    <p><a href="#">Website Builder</a></p>
+                    <p><a href="#">Web design</a></p>
+                    <p><a href="#">Powerpoint Templates</a></p>
+                    <p><a href="#">Hosting Reseller</a></p>
+                    <p><a href="#">Dedicated Server Hosting</a></p>
+                 </div><!--left-->
+
+                 <div id="right">
+                 <h3>OUR RESOURCE SITES</h3>
+                    <p><a href="#">Branding and Identity </a></p>
+                    <p><a href="#">Nature Based CSS Gallery </a></p>
+                    <p><a href="#">Free Vector Illustrations</a></p>
+                    <p><a href="#">Organic Web Design</a></p>
+                    <p><a href="#">Web Design</a></p>
+                    <p><a href="#">West Coast Clothing Co</a></p>
+                   </div><!--right-->
+
+                   <a href="#"><span class="leftp">copyright 2010 your comapny name</span></a>
+
+                   <a href="http://vectorart.org"><span class="rightp"> Thanks to VectorArt</span></a>
+
+
+                 </div><!--content-->
+
+</div><!--footer-->
+
+<script type='text/javascript'>
+$(document).ready(function(){
+
+	$("div#topline a").click(function(){
+	  $("#top").slideToggle("slow");
+	  $(this).toggleClass("active");
+	});
+
+});
+</script>
 
 </body>
 </html>

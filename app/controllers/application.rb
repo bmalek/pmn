@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
  def logged_in?
 
    unless @user = User.find_by_id(session[:user_id]) #|| local_request?
-     flash[:notice] = "You are not logged in to view the page you requested"
+     flash.now[:notice] = "You must logged in first!"
      #redirect_to :controller => "users", :action => "home"
      #return false
    end
@@ -36,7 +36,7 @@ class ApplicationController < ActionController::Base
       right.action == action_name && right.controller == controller_name
       }
     }
-    flash[:notice] = "You are not authorized to view the page you requested"
+    flash.now[:notice] = "You are not authorized to view the page you requested"
     #request.env["HTTP_REFERER"] ? (redirect_to :back) : (redirect_to root_url)
     #return false
   end
