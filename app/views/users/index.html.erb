@@ -6,17 +6,15 @@
     <th>Username</th>    
     <th>Primary Number</th>
     <th>Area Code</th>
-    <th>Country Code</th>
-    <th>Roles</th>
+    <th>Country Code</th>    
   </tr>
 
 <% for user in @users %>
   <tr>
-    <td><%=h user.username %></td>    
+    <td><%=h user.username %></td>
     <td><%=h user.primarynumber %></td>
     <td><%=h user.areacode %></td>
-    <td><%=h user.countrycode %></td>
-    <td><%=h user.roles.first.name %></td>
+    <td><%=h user.countrycode %></td>  
     <td><%= link_to 'Show', user %></td>
     <td><%= link_to 'Edit', edit_user_path(user) %></td>
     <td><%= link_to 'Destroy', user, :confirm => 'Are you sure?', :method => :delete %></td>
