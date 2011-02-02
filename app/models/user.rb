@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
   #before_validation :is_authenticated?
 
   #VALIDATIONS***************************************************************
-  validates_presence_of     :primarynumber, :username, :password
+  validates_presence_of     :primarynumber, :username, :password_hash
 
   validates_uniqueness_of   :primarynumber, :username
   #validates_acceptance_of  :terms_of_service, :on => :create
