@@ -17,6 +17,8 @@ class ApplicationController < ActionController::Base
   # from your application log (in this case, all fields with names like "password"). 
   filter_parameter_logging :password
 
+  before_filter :authorized?
+
  private
 
  def logged_in?
@@ -30,8 +32,8 @@ class ApplicationController < ActionController::Base
  end # end of logged_in?
 
  def authorized?
-  user = User.find_by_id(session[:user_id])
-  unless user and user.roles.detect{ |role|
+  @user = User.find_by_id(session[:user_id])
+  unless @user and @user.roles.detect{ |role|
     role.rights.detect{ |right|
       right.action == action_name && right.controller == controller_name
       }

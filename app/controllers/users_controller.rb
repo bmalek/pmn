@@ -2,8 +2,9 @@ class UsersController < ApplicationController
 
   #require 'twiliolib'
 
-  before_filter :logged_in?, :except => [:home, :login, :verify, :new, :create]
-  before_filter :authorized?, :except => [:home, :login, :verify, :new, :create]
+  #before_filter :logged_in?, :except => [:home, :login, :verify, :new, :create]
+  #before_filter :authorized?, :except => [:home, :login, :verify, :new, :create]
+  skip_before_filter :authorized?, :except => [:index, :show, :edit, :update, :destroy, :logout]
 
   # GET /users
   # GET /users.xml
