@@ -50,6 +50,7 @@ class User < ActiveRecord::Base
 
   def add_account_save
     self.account = Account.new(:frequency => '2')
+    self.roles << Role.find_all_by_name('everyone')
     self.save
   end
 
