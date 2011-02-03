@@ -29,7 +29,6 @@ class User < ActiveRecord::Base
   before_save :scrub_username, :flush_passwords
   #after_save :flush_passwords
 
-
   #CLASS METHODS************************************************************
 
   def self.find_by_username_and_password(username, password)
@@ -51,13 +50,11 @@ class User < ActiveRecord::Base
 
   def add_account_save
     self.account = Account.new(:frequency => '2')
-    self.save!
+    self.save
   end
 
   def send_sms
-
-    require 'twiliolib'
-    
+    require 'twiliolib'    
     # Create a Twilio REST account object using your Twilio account ID and token
     api_version = TWILIO_CONFIG["api_version"]
     account_sid = TWILIO_CONFIG["account_sid"]
@@ -65,17 +62,14 @@ class User < ActiveRecord::Base
     caller_id = TWILIO_CONFIG["caller_id"]
     account = Twilio::RestAccount.new(account_sid, account_token)
     generate_challenge_code
-
     sms = {
     'From' => caller_id.to_s,
     'To' => self.countrycode.to_s + self.areacode.to_s + self.primarynumber.to_s,
     'Body' => self.challenge_code.to_s,
     }
-
     account.request("/#{api_version}/Accounts/#{account_sid}/SMS/Messages", 'POST', sms)
 
   end
-
 
   #VIRTUAL ATTRIBUTES********************************************************
 

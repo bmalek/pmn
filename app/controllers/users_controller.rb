@@ -2,7 +2,7 @@ class UsersController < ApplicationController
 
   #require 'twiliolib'
 
-  before_filter :logged_in?, :only => [:index, :edit, :update, :show]
+  before_filter :logged_in?, :except => [:home, :login, :verify, :new, :create]
   #
 
   # GET /users
@@ -127,6 +127,7 @@ class UsersController < ApplicationController
   def destroy
     #@user = User.find_by_id(params[:id])
     @user.destroy
+    reset_session
 
     respond_to do |format|
       format.html { redirect_to(users_url) }
