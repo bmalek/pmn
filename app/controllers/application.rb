@@ -20,7 +20,7 @@ class ApplicationController < ActionController::Base
   #before_filter :logged_in?
   before_filter :authorized?
 
- private
+  private
 
  def logged_in?
 
