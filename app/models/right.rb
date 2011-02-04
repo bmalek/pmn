@@ -4,7 +4,7 @@ class Right < ActiveRecord::Base
   validates_uniqueness_of :name
 
   # Ensure that the table has one entry for each controller/action pair
-  def self.synchronize_with_controllers
+  def self.synchronize
     # weird hack. otherwise ActiveRecord has no idea about the superclass of any
     # ActionController stuff...
     #require RAILS_ROOT + "/app/controllers/application"
@@ -20,9 +20,10 @@ class Right < ActiveRecord::Base
     # Find the actions in each of the controllers, and add them to the database
     subclasses_of(ApplicationController).each do |controller|
       controller.public_instance_methods(false).each do |action|
-        next if action =~ /return_to_main|component_update|component/
+        #next if action =~ /return_to_main|component_update|component/
         if find_all_by_controller_and_action(controller.controller_path, action).empty?
           self.new(:name => "#{controller}.#{action}", :controller => controller.controller_path, :action => action).save!
+          #self.create(:name => "#{controller}.#{action}", :controller => controller.controller_path, :action => action)
           logger.info "added: #{controller} - #{controller.controller_path}, #{action}"
         end
       end
@@ -34,6 +35,7 @@ class Right < ActiveRecord::Base
           right_to_go.destroy
         end
       end
+
     end    
     
   end

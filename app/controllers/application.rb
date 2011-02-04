@@ -17,6 +17,7 @@ class ApplicationController < ActionController::Base
   # from your application log (in this case, all fields with names like "password"). 
   filter_parameter_logging :password
 
+  #before_filter :logged_in?
   before_filter :authorized?
 
  private
@@ -33,12 +34,12 @@ class ApplicationController < ActionController::Base
 
  def authorized?
   @user = User.find_by_id(session[:user_id])
-  unless @user and @user.roles.detect{ |role|
+  unless @user and (@user.roles.find_by_name('superadmin') or @user.roles.detect{ |role|
     role.rights.detect{ |right|
-      right.action == action_name && right.controller == controller_name
+      (right.action == action_name && right.controller == controller_name)
       }
-    }
-    flash[:notice] = "You are not authorized to view the page you requested"
+    })
+    flash[:notice] = "You are not authorized to view the page requested. You must login first!"
     request.env["HTTP_REFERER"] ? (redirect_to :back)  : (redirect_to root_url)
     return false
   end

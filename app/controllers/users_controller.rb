@@ -4,7 +4,7 @@ class UsersController < ApplicationController
 
   #before_filter :logged_in?, :except => [:home, :login, :verify, :new, :create]
   #before_filter :authorized?, :except => [:home, :login, :verify, :new, :create]
-  skip_before_filter :authorized?, :except => [:index, :show, :edit, :update, :destroy, :logout]
+  skip_before_filter :authorized?, :except => [:index, :show, :edit, :update, :destroy]
 
   # GET /users
   # GET /users.xml

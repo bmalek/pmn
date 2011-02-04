@@ -12,7 +12,7 @@ class RightsController < ApplicationController
 
   # GET rights/synch
   def synch
-    if @rights = Right.synchronize_with_controllers.find(:all)
+    if @rights = Right.synchronize.find(:all)
       flash[:notice] = 'Right table is syncrhonizaed and up-to-date.'
     else
       flash[:notice] = 'There was an error, contact the administrator!'
