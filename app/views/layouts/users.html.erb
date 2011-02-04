@@ -19,7 +19,10 @@
     </div>
     <div class="nav">
       <ul>
-        <li><%= link_to_unless_current 'Register', root_url %></li>
+        <li><%= link_to_if session[:user_id].nil?, 'REGISTER', root_url do
+            link_to 'HOME', :controller => 'users', :action => 'show'
+            end %>
+        </li>
         <li><a href="#">DEALS</a></li>
         <li><a href="#">HOW IT WORKS?</a></li>
         <li><a href="#">BLOG</a></li>
