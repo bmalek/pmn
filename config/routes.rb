@@ -1,9 +1,15 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :coupons
+
+  map.resources :messages, :collection => {:twilio_sms => :post, :twilio => :get}
+
+  map.resources :deals
+
   map.resources :roles
 
   map.resources :rights, :collection => {:synch => :get}
 
-  map.resources :accounts
+  #map.resources :accounts
 
   map.resources :categories
 
@@ -29,6 +35,8 @@ ActionController::Routing::Routes.draw do |map|
   #   map.resources :products, :has_many => [ :comments, :sales ], :has_one => :seller
 
   map.resources :users, :has_one => :account
+
+  map.resources :users, :has_many => :coupons
   
   # Sample resource route with more complex sub-resources
   #   map.resources :products do |products|

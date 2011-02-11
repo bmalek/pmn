@@ -4,7 +4,7 @@
 </p>
 <p>
   <% for category in @account.categories %>
-    <%=h category.name %>
+    <%=h category.name %><br />
   <% end %>
 </p>
 <%= link_to 'Edit', edit_user_account_path %> |

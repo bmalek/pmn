@@ -14,7 +14,7 @@ namespace :db do
 
     #add all the rights to the admin role
     #Right.synchronize
-    Right.find(:all).each { |right| Role.find_by_name('superadmin').rights << right }
+    #Right.find(:all).each { |right| Role.find_by_name('superadmin').rights << right }
     
   end
 end

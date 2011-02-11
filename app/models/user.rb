@@ -2,6 +2,8 @@ class User < ActiveRecord::Base
 
   has_one :account, :dependent => :destroy
   has_and_belongs_to_many :roles
+  has_and_belongs_to_many :deals
+  has_many  :messages
 
   # For security pruposes, just to say that what values can be accessed via params[:*]
   attr_accessible  :username, :password, :password_confirmation, 

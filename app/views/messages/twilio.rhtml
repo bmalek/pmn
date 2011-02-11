@@ -1,0 +1,23 @@
+<%#
+# To change this template, choose Tools | Templates
+# and open the template in the editor.
+%>
+
+<%= "twilio_sms" %>
+
+
+<% form_tag '/messages/twilio_sms' do %>
+
+  <p>
+  <b>To:</b> <%= text_field_tag :To %> <br />
+
+  <b>From:</b> <%= text_field_tag :From %> <br />
+
+  <b>Body:</b> <%= text_area_tag :Body %> <br />
+  </p>
+
+  <p>
+    <%= submit_tag 'Send SMS' %> | <%= link_to 'Messages', messages_path %>
+  </p>
+
+<% end %>
