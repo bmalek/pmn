@@ -2,7 +2,7 @@
 
 <p>Enter your cellphone number below and start receiving phonated deals!</p><br />
 
-<% form_for @user, :url => {:action => "verify"} do |f| %>
+<% form_for @user, :url => {:controller => "home", :action => "verify"} do |f| %>
   <%= f.error_messages %>
 
   <p>

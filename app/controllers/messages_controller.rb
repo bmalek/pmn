@@ -1,6 +1,6 @@
 class MessagesController < ApplicationController
 
-  skip_before_filter :authorized?, :only => [:twilio_sms]
+  #skip_before_filter :authorized?, :only => [:twilio_sms]
 
   # GET /messages
   # GET /messages.xml
@@ -55,37 +55,6 @@ class MessagesController < ApplicationController
         format.xml  { render :xml => @message.errors, :status => :unprocessable_entity }
       end
     end
-  end
-
-  # POST /messages/twilio_sms
-  # POST /messages.xml
-  def twilio_sms
-    sms = Hash.new
-    sms[:sid] = params[:Sid]
-    sms[:date_created] = params[:DateCreated]
-    sms[:date_updated] = params[:DateUpdated]
-    sms[:date_sent] = params[:DateSent]
-    sms[:account_sid] = params[:AccountSid]
-    sms[:from] = params[:From]
-    sms[:to] = params[:To]
-    sms[:body] = params[:Body]
-    sms[:status] = params[:Status]
-    sms[:direction] = params[:Direction]
-    sms[:price] = params[:Price]
-    sms[:api_version] = params[:ApiVersion]
-    sms[:uri] = params[:Uri]
-    @message = Message.new(sms)
-    @message.reply_sms
-
-    respond_to do |format|
-      if @message.save
-        flash[:notice] = 'Message was successfully received.'
-        format.html { redirect_to(@message) }
-      else
-        format.html { render :action => "new" }
-      end
-    end
-
   end
 
   # PUT /messages/1

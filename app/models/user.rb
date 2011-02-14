@@ -1,9 +1,10 @@
 class User < ActiveRecord::Base  
 
-  has_one :account, :dependent => :destroy
+  has_one :account #, :dependent => :destroy (DONT USE WITH BELONGS TO)
   has_and_belongs_to_many :roles
   has_and_belongs_to_many :deals
   has_many  :messages
+  has_many  :coupons #, :dependent => :destroy
 
   # For security pruposes, just to say that what values can be accessed via params[:*]
   attr_accessible  :username, :password, :password_confirmation, 
@@ -46,7 +47,7 @@ class User < ActiveRecord::Base
     self.challenge_code = (0...4).map{ charset.to_a[rand(charset.size)] }.join
   end
 
-  def verified_response_code?(challenge_code)
+  def verify_response_code(challenge_code)
     self.response_code.upcase! == challenge_code
   end
 

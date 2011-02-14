@@ -26,8 +26,8 @@
         <li><a href="#">DEALS</a></li>
         <li><a href="#">HOW IT WORKS?</a></li>
         <li><a href="#">BLOG</a></li>
-        <li><%= link_to_if session[:user_id].nil?, 'LOGIN', :controller => 'users', :action => 'home' do
-            link_to 'LOGOUT', :controller => 'users', :action => 'logout'
+        <li><%= link_to_if session[:user_id].nil?, 'LOGIN', :controller => 'home', :action => 'index' do
+            link_to 'LOGOUT', :controller => 'home', :action => 'logout'
             end %>
         </li>
       </ul>

@@ -1,10 +1,9 @@
 class UsersController < ApplicationController
 
-  #require 'twiliolib'
-
-  #before_filter :logged_in?, :except => [:home, :login, :verify, :new, :create]
-  #before_filter :authorized?, :except => [:home, :login, :verify, :new, :create]
-  skip_before_filter :authorized?, :except => [:index, :show, :edit, :update, :destroy]
+  #require 'twiliolib'  
+  
+  #skip_before_filter :authorized?, :except => [:index, :show, :edit, :update, :destroy]
+  skip_before_filter :authorized?, :only => [:create]
 
   # GET /users
   # GET /users.xml
@@ -17,10 +16,7 @@ class UsersController < ApplicationController
     end
   end
 
-  # GET /users/home
-  def home
-    
-  end
+  # GET /users/home 
 
   # GET /users/1
   # GET /users/1.xml
@@ -31,27 +27,7 @@ class UsersController < ApplicationController
       format.html # show.html.erb
       format.xml  { render :xml => @user }
     end
-  end
-
-  # POST /users/login
-  # POST /users/login.xml
-  def login
-    @user = User.find_by_username_and_password(params[:username], params[:password]) #(params[:user])
-
-    respond_to do |format|
-
-      unless @user.nil?
-        flash.now[:notice] = 'Successfully logged in!'
-        session[:user_id] = @user.id
-        format.html { redirect_to(@user) } # login.html.erb
-        format.xml  { render :xml => @user } #.errors, :status => :unprocessable_entity }
-      else
-        flash.now[:notice] = 'Login error, try again!'
-        format.html { render :action => "home" }
-        format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
-      end
-    end
-  end
+  end  
 
   # GET /users/new
   # GET /users/new.xml
@@ -63,21 +39,6 @@ class UsersController < ApplicationController
       format.xml  { render :xml => @user }
     end
   end
-
-  # POST /users/verify
-  # POST /users/verify.xml
-  def verify
-    @user = User.new(params[:user])        
-    @resp = @user.send_sms # AFTER send_sms, the challenge_code is generated!
-    @challenge_code = @user.challenge_code
-    session[:challenge_code] = @challenge_code
-
-    respond_to do |format|
-      format.html # verify.html.erb { render :action => "new" }
-      format.xml  { render :xml => @user } #.errors, :status => :unprocessable_entity }
-    end
-  end
-
 
   # GET /users/1/edit
   def edit
@@ -100,7 +61,7 @@ class UsersController < ApplicationController
         format.xml  { render :xml => @user, :status => :created, :location => @user }
       else
         flash.now[:notice] = 'Invalid inputs, try again!'
-        format.html { render :action => "new" }
+        format.html { render :controller => "home", :action => "register" }
         format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
       end
     end
@@ -136,10 +97,4 @@ class UsersController < ApplicationController
     end
   end
 
-  # GET /users/logout
-  def logout
-    reset_session
-    flash[:notice] = "You have been logged out."
-    redirect_to root_url
-  end
 end

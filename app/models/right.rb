@@ -3,6 +3,8 @@ class Right < ActiveRecord::Base
   validates_presence_of :controller, :action, :name
   validates_uniqueness_of :name
 
+  attr_accessible  :name, :controller, :action
+
   # Ensure that the table has one entry for each controller/action pair
   def self.synchronize
     # weird hack. otherwise ActiveRecord has no idea about the superclass of any

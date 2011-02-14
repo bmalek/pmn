@@ -1,7 +1,9 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :txts
+
   map.resources :coupons
 
-  map.resources :messages, :collection => {:twilio_sms => :post, :twilio => :get}
+  map.resources :messages#, :collection => {:twilio_sms => :post, :twilio => :get}
 
   map.resources :deals
 
@@ -13,7 +15,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :categories
 
-  map.resources :users, :collection => {:home => :get, :login => :post, :logout => :get}
+  #map.resources :users, :collection => {:home => :get, :login => :post, :logout => :get}
 
   # The priority is based upon order of creation: first created -> highest priority.
 
@@ -34,9 +36,13 @@ ActionController::Routing::Routes.draw do |map|
   # Sample resource route with sub-resources:
   #   map.resources :products, :has_many => [ :comments, :sales ], :has_one => :seller
 
-  map.resources :users, :has_one => :account
+  #map.resources :users, :has_many => :coupons  
+  
+  #map.resources :users do |user|
+    #user.resources :coupons
+  #end
 
-  map.resources :users, :has_many => :coupons
+  map.resources :users, :has_one => :account
   
   # Sample resource route with more complex sub-resources
   #   map.resources :products do |products|
@@ -53,7 +59,7 @@ ActionController::Routing::Routes.draw do |map|
   #   end
 
   # You can have the root of your site routed with map.root -- just remember to delete public/index.html.
-  map.root :controller => "users", :action => "new"
+  map.root :controller => "home", :action => "index"
 
   # See how all your routes lay out with "rake routes"
 
@@ -61,5 +67,5 @@ ActionController::Routing::Routes.draw do |map|
   # Note: These default routes make all actions in every controller accessible via GET requests. You should
   # consider removing the them or commenting them out if you're using named routes and resources.
   map.connect ':controller/:action/:id'
-  map.connect ':controller/:action/:id.:format'
+  #map.connect ':controller/:action/:id.:format'
 end
