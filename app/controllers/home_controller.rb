@@ -91,7 +91,7 @@ class HomeController < ApplicationController
     #sms[:api_version] = params[:ApiVersion]
     #sms[:uri] = params[:Uri]
     sms = {
-    :sid => params[:Sid],
+    :sid => params[:SmsSid],
     #:date_created => params[:DateCreated],
     #:date_updated => params[:DateUpdated],
     #:date_sent => params[:DateSent],
@@ -99,8 +99,8 @@ class HomeController < ApplicationController
     :from => params[:From],
     :to => params[:To],
     :body => params[:Body],
-    #:status => params[:Status],
-    :direction => params[:Direction],
+    #:status => params[:SmsStatus], # this will be used later for confirmation with Twilio
+    #:direction => params[:Direction],
     #:price => params[:Price],
     #:api_version => params[:ApiVersion],
     #:uri => params[:Uri]
@@ -109,17 +109,21 @@ class HomeController < ApplicationController
     unless @txt.coupon_owner.nil?
       @user = @txt.coupon_owner
       @user.messages << Message.new(sms)      
-    end  
+    end
+    
+    @status_report = TWILIO_CONFIG["base_url"].to_s + '/home/twilio_status'
 
-    @txt.twilio_reply_sms
+    #@txt.twilio_reply_sms
 
     respond_to do |format|
       if @txt.save
         flash[:notice] = 'Message was successfully received.'
         format.html { redirect_to(@txt) }
+        format.xml { @status_report }
       else
         flash[:notice] = 'Delivery failed.'
         format.html { redirect_to('/home/twilio') } #:action => "index"
+        format.xml
       end
     end
 
