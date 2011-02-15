@@ -1,4 +1,4 @@
 xml.instruct!
 xml.Response do
-    xml.Sms "Thank you"    
+    xml.Sms @reply_message
 end

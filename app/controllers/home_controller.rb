@@ -75,7 +75,7 @@ class HomeController < ApplicationController
   #RECEIVE SMS FROM TWILIO PROCESS ###########################################
   # POST /messages/twilio_sms
   # POST /messages.xml
-  def twilio_sms
+  def twilio_sms    
     #sms = Hash.new
     #sms[:sid] = params[:Sid]
     #sms[:date_created] = params[:DateCreated]
@@ -105,7 +105,7 @@ class HomeController < ApplicationController
     #:api_version => params[:ApiVersion],
     #:uri => params[:Uri]
     }
-    @txt = Txt.new(sms)
+    @txt = Txt.new(sms)  
     unless @txt.coupon_owner.nil?
       @user = @txt.coupon_owner
       @user.messages << Message.new(sms)      
@@ -116,14 +116,16 @@ class HomeController < ApplicationController
     #@txt.twilio_reply_sms
 
     respond_to do |format|
-      if @txt.save
+      if @txt.save and !@txt.coupon_owner.nil?
         flash[:notice] = 'Message was successfully received.'
+        @reply_message = 'Thank you'
         #format.html { redirect_to(@txt) }
-        format.xml #{ @status_report }
+        format.xml { @reply_message }
       else
         flash[:notice] = 'Delivery failed.'
-        format.html { redirect_to('/home/twilio') } #:action => "index"
-        #format.xml
+        #format.html { redirect_to('/home/twilio') } # :action => "index"
+        @reply_message = 'Did not find Coupon code!'
+        format.xml { @reply_message }
       end
     end
 
