@@ -118,12 +118,12 @@ class HomeController < ApplicationController
     respond_to do |format|
       if @txt.save
         flash[:notice] = 'Message was successfully received.'
-        format.html { redirect_to(@txt) }
-        format.xml { @status_report }
+        #format.html { redirect_to(@txt) }
+        format.xml #{ @status_report }
       else
         flash[:notice] = 'Delivery failed.'
         format.html { redirect_to('/home/twilio') } #:action => "index"
-        format.xml
+        #format.xml
       end
     end
 
