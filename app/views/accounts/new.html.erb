@@ -7,6 +7,12 @@
     <%= f.label :frequency %>
     <%= f.select :frequency, %w{ 0 2 4 7 14 }, :selected => '2' %>
   </p>
+
+   <p>
+    <%= f.label :discount %>
+    <%= f.text_field :discount %>
+  </p>
+
   <p>
     <% for category in @categories %>
     <%= check_box_tag 'category_ids[]', category.id %><b><%=h category.name %>:</b> <%=h category.description %><br />

@@ -5,6 +5,7 @@
     <th>To</th>
     <th>From</th>
     <th>Body</th>
+    <th>Discount</th>
   </tr>
 
 <% for message in @messages %>
@@ -12,6 +13,7 @@
     <td><%=h message.to %></td>
     <td><%=h message.from %></td>
     <td><%=h message.body %></td>
+    <td><%=h message.discount %></td>
     <td><%= link_to 'Show', message %></td>
     <td><%= link_to 'Edit', edit_message_path(message) %></td>
     <td><%= link_to 'Destroy', message, :confirm => 'Are you sure?', :method => :delete %></td>

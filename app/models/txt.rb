@@ -1,8 +1,13 @@
 class Txt < ActiveRecord::Base
 
-  require 'twiliolib'
+
+  #attr_accessible
+
+  #VALIDATIONS***************************************************************
+  validates_presence_of     :to, :from  
 
   def twilio_send_sms
+    require 'twiliolib'
     # Create a Twilio REST account object using your Twilio account ID and token
     api_version = TWILIO_CONFIG["api_version"]
     account_sid = TWILIO_CONFIG["account_sid"]
@@ -19,6 +24,7 @@ class Txt < ActiveRecord::Base
   end
 
   def twilio_reply_sms
+    require 'twiliolib'
     # Create a Twilio REST account object using your Twilio account ID and token
     api_version = TWILIO_CONFIG["api_version"]
     account_sid = TWILIO_CONFIG["account_sid"]
@@ -34,9 +40,37 @@ class Txt < ActiveRecord::Base
 
   end
 
+  def match_coupon?(sms)
+    unless coupon_owner.nil?
+      user = coupon_owner
+      message = user.messages.build(sms) #<< Message.new(sms)
+      message.save
+      self.reply_message = message.discount
+      return true
+    else
+      self.reply_message = 'Did not find a coupon match!'
+      return false
+    end
+
+  end
+
+  #VIRTUAL ATTRIBUTES********************************************************
+
+  # custom setter method (input to database) needed fot the controller
+  def reply_message=(rm)
+    @reply_message = rm
+  end
+
+  #custom getter method (output from database) needed for the view
+  def reply_message
+    @reply_message
+  end
+
+  private
+
   def coupon_owner
     self.body.scan(/\w+/) { |c|      
-      coupon = Coupon.find_by_code(c.to_s)
+      coupon = Coupon.find_by_code(c.to_s.upcase)
       unless coupon.nil?
         return coupon.user
       end

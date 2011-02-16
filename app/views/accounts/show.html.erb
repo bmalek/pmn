@@ -1,7 +1,13 @@
 <p>
-  <b>SMS Frequency:</b> 
+  <b>Discount Frequency:</b>
   <%=h @account.frequency %>
 </p>
+
+<p>
+  <b>Discount:</b>
+  <%=h @account.discount %>
+</p>
+
 <p>
   <% for category in @account.categories %>
     <%=h category.name %><br />

@@ -5,7 +5,7 @@ class MessagesController < ApplicationController
   # GET /messages
   # GET /messages.xml
   def index
-    @messages = Message.find(:all)
+    @messages = @user.messages #.find(:all)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -16,7 +16,7 @@ class MessagesController < ApplicationController
   # GET /messages/1
   # GET /messages/1.xml
   def show
-    @message = Message.find(params[:id])
+    @message = @user.messages.find_by_id(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -27,7 +27,7 @@ class MessagesController < ApplicationController
   # GET /messages/new
   # GET /messages/new.xml
   def new
-    @message = Message.new
+    @message = @user.messages.build
 
     respond_to do |format|
       format.html # new.html.erb
@@ -37,13 +37,13 @@ class MessagesController < ApplicationController
 
   # GET /messages/1/edit
   def edit
-    @message = Message.find(params[:id])
+    @message = @user.messages.find_by_id(params[:id])
   end
 
   # POST /messages
   # POST /messages.xml
   def create
-    @message = Message.new(params[:message])
+    @message = @user.messages.build(params[:message])
 
     respond_to do |format|
       if @message.save
@@ -60,7 +60,7 @@ class MessagesController < ApplicationController
   # PUT /messages/1
   # PUT /messages/1.xml
   def update
-    @message = Message.find(params[:id])
+    @message = @user.messages.find_by_id(params[:id])
 
     respond_to do |format|
       if @message.update_attributes(params[:message])

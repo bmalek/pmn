@@ -4,7 +4,7 @@
 
 <%=h @resp %>
 
-<% form_for @user, :url => { :controller => "home", :action => "create" } do |f| %>
+<% form_for @user, :url => { :controller => "home", :action => "create" }, :html => {  :onsubmit => "return submit_form()" } do |f| %>
   <%= f.error_messages %>
   
   <p>    

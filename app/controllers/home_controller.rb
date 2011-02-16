@@ -73,59 +73,29 @@ class HomeController < ApplicationController
   end
 
   #RECEIVE SMS FROM TWILIO PROCESS ###########################################
-  # POST /messages/twilio_sms
-  # POST /messages.xml
-  def twilio_sms    
-    #sms = Hash.new
-    #sms[:sid] = params[:Sid]
-    #sms[:date_created] = params[:DateCreated]
-    #sms[:date_updated] = params[:DateUpdated]
-    #sms[:date_sent] = params[:DateSent]
-    #sms[:account_sid] = params[:AccountSid]
-    #sms[:from] = params[:From]
-    #sms[:to] = params[:To]
-    #sms[:body] = params[:Body]
-    #sms[:status] = params[:Status]
-    #sms[:direction] = params[:Direction]
-    #sms[:price] = params[:Price]
-    #sms[:api_version] = params[:ApiVersion]
-    #sms[:uri] = params[:Uri]
+  # GET /messages/twilio_sms
+  # GET /messages.xml
+  def twilio_sms
     sms = {
-    :sid => params[:SmsSid],
-    #:date_created => params[:DateCreated],
-    #:date_updated => params[:DateUpdated],
-    #:date_sent => params[:DateSent],
-    #:account_sid => params[:AccountSid],
+    :sid => params[:SmsSid],    
     :from => params[:From],
     :to => params[:To],
     :body => params[:Body],
-    #:status => params[:SmsStatus], # this will be used later for confirmation with Twilio
-    #:direction => params[:Direction],
-    #:price => params[:Price],
-    #:api_version => params[:ApiVersion],
-    #:uri => params[:Uri]
+    #:status => params[:SmsStatus], # this will be used later for confirmation with Twilio    
     }
-    @txt = Txt.new(sms)  
-    unless @txt.coupon_owner.nil?
-      @user = @txt.coupon_owner
-      @user.messages << Message.new(sms)      
-    end
+    @txt = Txt.new(sms)      
     
     @status_report = TWILIO_CONFIG["base_url"].to_s + '/home/twilio_status'
 
     #@txt.twilio_reply_sms
 
     respond_to do |format|
-      if @txt.save and !@txt.coupon_owner.nil?
-        flash[:notice] = 'Message was successfully received.'
-        @reply_message = 'Thank you'
-        #format.html { redirect_to(@txt) }
-        format.xml { @reply_message }
+      if @txt.save and @txt.match_coupon?(sms)
+        flash[:notice] = 'Message was successfully received.'        
+        format.xml { @txt }
       else
-        flash[:notice] = 'Delivery failed.'
-        #format.html { redirect_to('/home/twilio') } # :action => "index"
-        @reply_message = 'Did not find Coupon code!'
-        format.xml { @reply_message }
+        flash[:notice] = 'Delivery failed.'                
+        format.xml { @txt }
       end
     end
 

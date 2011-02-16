@@ -7,6 +7,7 @@
 <% for account in @accounts %>
   <tr>
     <td> <%=h @account.frequency %>  </td>
+    <td> <%=h @account.discount %>  </td>
     <td><%= link_to 'Show', user_account %></td>
     <td><%= link_to 'Edit', edit_user_account_path(account) %></td>
     <td><%= link_to 'Destroy', account, :confirm => 'Are you sure?', :method => :delete %></td>

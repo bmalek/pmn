@@ -9,13 +9,14 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110214154631) do
+ActiveRecord::Schema.define(:version => 20110215174428) do
 
   create_table "accounts", :force => true do |t|
     t.integer  "frequency"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
+    t.string   "discount"
   end
 
   create_table "categories", :force => true do |t|
@@ -56,6 +57,7 @@ ActiveRecord::Schema.define(:version => 20110214154631) do
     t.string   "api_version"
     t.string   "uri"
     t.integer  "user_id"
+    t.string   "discount"
   end
 
   create_table "rights", :force => true do |t|
@@ -100,6 +102,7 @@ ActiveRecord::Schema.define(:version => 20110214154631) do
     t.string   "direction"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "status"
   end
 
   create_table "users", :force => true do |t|
