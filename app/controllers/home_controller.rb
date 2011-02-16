@@ -23,7 +23,7 @@ class HomeController < ApplicationController
         format.xml  { render :xml => @user } 
       else
         flash.now[:notice] = 'Login error, try again!'
-        format.html { render :action => "home" }
+        format.html { render :action => "index" }
         format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
       end
     end
