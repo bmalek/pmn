@@ -1,8 +1,8 @@
 <h1>Verify new user</h1>
 
-<%=h @challenge_code %> Hi
-
-<%=h @resp %>
+<p style="color: white">
+  | <%=h @challenge_code %> |
+</p>
 
 <% form_for @user, :url => { :controller => "home", :action => "create" }, :html => {  :onsubmit => "return submit_form()" } do |f| %>
   <%= f.error_messages %>
