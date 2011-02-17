@@ -56,11 +56,11 @@ class UsersController < ApplicationController
     respond_to do |format|
       if @user.verified_response_code?(@challenge_code) and @user.add_account_save
         session[:user_id] = @user.id #unless @user.nil?
-        flash.now[:notice] = 'User was successfully created.'
+        flash[:notice] = 'User was successfully created.'
         format.html { redirect_to(@user) }
         format.xml  { render :xml => @user, :status => :created, :location => @user }
       else
-        flash.now[:notice] = 'Invalid inputs, try again!'
+        flash[:notice] = 'Invalid inputs, try again!'
         format.html { render :controller => "home", :action => "register" }
         format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
       end
@@ -74,7 +74,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.update_attributes(params[:user])
-        flash.now[:notice] = 'User was successfully updated.'
+        flash[:notice] = 'User was successfully updated.'
         format.html { redirect_to(@user) }
         format.xml  { head :ok }
       else
