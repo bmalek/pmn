@@ -20,7 +20,7 @@
   </script>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
   <title> <%= controller.controller_name %>.<%= controller.action_name %></title>
-  <%= stylesheet_link_tag 'onecolumn' %>
+  <%= stylesheet_link_tag 'twocolumn' %>
 </head>
 
 <body>
@@ -34,15 +34,24 @@
 	<div id="navigation">
 		<%= render :partial => 'shared/main_menu' %>
 	</div>
-	<div id="content">		
-		<p style="color: green">
-          <%= flash[:notice] %>
-        </p>
-        <%= yield %>
+
+    <div id="content-container">
+		<div id="content">
+			<p style="color: blue">
+              <%= flash[:notice] %>
+            </p>
+            <%= yield %>
+		</div>
+		<div id="aside">			
+			<p>
+				<%= render :partial => 'shared/side_menu' %>
+			</p>
+		</div>
+		<div id="footer">
+			Copyright © Phorget-me-not, 2011
+		</div>
 	</div>
-	<div id="footer">
-		Copyright © Phorget-me-not, 2011
-	</div>
+
 </div>
 
 </body>

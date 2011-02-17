@@ -8,13 +8,15 @@ class Message < ActiveRecord::Base
 
 
   # FILTERS ********************************************************************
-  before_save :check_fresh?
+  before_save :check_fresh?, :calculate_discount
 
-  after_save :calculate_discount
+  #after_save :calculate_discount
   
 
   # INSTANCE METHODS ***********************************************************
 
+  private
+  
   def calculate_discount
     past_messages = self.user.messages.find_all_by_from( self.from )
     unless past_messages.nil?
@@ -27,13 +29,11 @@ class Message < ActiveRecord::Base
       else
         self.discount = 'Thanks for the message :) Keep checking us out and we will surprise you!'
       end
-      return
-    end
-    self.discount = 'Hello first-timer! Thank you for showing your support! ;) '
+    else
+      self.discount = 'Hello first-timer! Thank you for showing your support! ;) '
+    end    
 
-  end
-
-  private
+  end  
   
   # checks if 12 hours has past since last save with the same number?
   def check_fresh?

@@ -47,7 +47,7 @@ class MessagesController < ApplicationController
 
     respond_to do |format|
       if @message.save
-        flash[:notice] = 'Message was successfully created.'
+        flash[:notice] = 'Cell phone was successfully added.'
         format.html { redirect_to(@message) }
         format.xml  { render :xml => @message, :status => :created, :location => @message }
       else
@@ -64,7 +64,7 @@ class MessagesController < ApplicationController
 
     respond_to do |format|
       if @message.update_attributes(params[:message])
-        flash[:notice] = 'Message was successfully updated.'
+        flash[:notice] = 'Cell phone was successfully updated.'
         format.html { redirect_to(@message) }
         format.xml  { head :ok }
       else

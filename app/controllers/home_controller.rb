@@ -62,10 +62,10 @@ class HomeController < ApplicationController
 
       if @user.verify_response_code(@challenge_code) and @user.add_account_save
         session[:user_id] = @user.id #unless @user.nil?
-        flash.now[:notice] = 'User was successfully created.'
+        flash[:notice] = 'User was successfully created.'
         redirect_to( @user )
       else
-        flash.now[:notice] = 'Invalid inputs, try again!'
+        flash[:notice] = 'Invalid inputs, try again!'
         redirect_to( :action => "register" )
       end
     end

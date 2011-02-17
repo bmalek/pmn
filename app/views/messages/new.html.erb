@@ -1,14 +1,10 @@
-<h1>New message</h1>
+<h1>New cell phone</h1>
 
 <% form_for(@message) do |f| %>
   <%= f.error_messages %>
-
+  
   <p>
-    <%= f.label :to %><br />
-    <%= f.text_field :to %>
-  </p>
-  <p>
-    <%= f.label :from %><br />
+    <%= f.label :number %><br />
     <%= f.text_field :from %>
   </p>
   <p>

@@ -1,16 +1,14 @@
-<h1>Listing messages</h1>
+<h1>Listing cell phones</h1>
 
 <table>
-  <tr>
-    <th>To</th>
-    <th>From</th>
+  <tr>    
+    <th>Number</th>
     <th>Body</th>
     <th>Discount</th>
   </tr>
 
 <% for message in @messages %>
-  <tr>
-    <td><%=h message.to %></td>
+  <tr>    
     <td><%=h message.from %></td>
     <td><%=h message.body %></td>
     <td><%=h message.discount %></td>
@@ -23,4 +21,4 @@
 
 <br />
 
-<%= link_to 'New message', new_message_path %>
+<%= link_to 'Add a new cell phone', new_message_path %>
