@@ -13,12 +13,11 @@ class PbxController < ApplicationController
   def check
 
     vc = {
-    :sid => params[:Sid],
+    :sid => params[:CallSid],
     :from => params[:From],
     :to => params[:To],
-    :status => params[:Status],
-    :direction => params[:Direction],
-    :name => params[:CallerName],
+    :status => params[:CallStatus],
+    :direction => params[:Direction],    
     :body => params[:Digits]
     }
 

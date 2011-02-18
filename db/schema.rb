@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110215174428) do
+ActiveRecord::Schema.define(:version => 20110218081617) do
 
   create_table "accounts", :force => true do |t|
     t.integer  "frequency"
@@ -17,6 +17,18 @@ ActiveRecord::Schema.define(:version => 20110215174428) do
     t.datetime "updated_at"
     t.integer  "user_id"
     t.string   "discount"
+  end
+
+  create_table "calls", :force => true do |t|
+    t.string   "sid"
+    t.string   "from"
+    t.string   "to"
+    t.string   "status"
+    t.string   "direction"
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "body"
   end
 
   create_table "categories", :force => true do |t|
@@ -58,6 +70,7 @@ ActiveRecord::Schema.define(:version => 20110215174428) do
     t.string   "uri"
     t.integer  "user_id"
     t.string   "discount"
+    t.string   "name"
   end
 
   create_table "rights", :force => true do |t|
