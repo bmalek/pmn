@@ -21,7 +21,7 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.xml
   def show
-    @user = User.find_by_id(params[:id]) 
+    #@user = User.find_by_id(params[:id]) 
 
     respond_to do |format|
       format.html # show.html.erb

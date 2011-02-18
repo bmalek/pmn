@@ -1,5 +1,5 @@
 <ul>
-  <li><%= link_to_if session[:user_id].nil?, 'REGISTER', root_url do
+  <li><%= link_to_if session[:user_id].nil?, 'REGISTER', :controller => 'home', :action => 'register' do
           link_to 'HOME', :controller => 'users', :action => 'show'
       end %>
   </li>
