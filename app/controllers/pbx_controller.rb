@@ -1,11 +1,9 @@
 class PbxController < ApplicationController
-  skip_before_filter :authorized?
-
-  BASE_URL = TWILIO_CONFIG["base_url"]
+  skip_before_filter :authorized?  
 
   def voice    
 
-    @postto = BASE_URL + '/pbx/check'
+    @postto = TWILIO_CONFIG["base_url"].to_s + '/pbx/check'
 
     respond_to do |format|
         format.xml { @postto }
