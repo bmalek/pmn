@@ -1,5 +1,5 @@
 <Response>
-    <Gather numDigits="4" action="http://high-stream-221.heroku.com/pbx/check">
+    <Gather numDigits="4" action="http://high-stream-221.heroku.com/pbx/check" method="GET">
          <Pause length="60" />
     </Gather>
     <Hangup/>
