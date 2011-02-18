@@ -24,9 +24,7 @@ class PbxController < ApplicationController
     @call = Call.new(vc)
     @call.save
     
-    @digits = @call.body.to_s
-
-    @digits.split(//).join(', ')
+    @digits = @call.body.to_s.split(//).join(', ')
 
     respond_to do |format|
         format.xml 
