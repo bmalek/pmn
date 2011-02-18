@@ -3,7 +3,7 @@ class CreateCalls < ActiveRecord::Migration
     create_table :calls do |t|
       t.string :sid
       t.string :from
-      t.string, :to
+      t.string :to
       t.string :status
       t.string :direction
       t.string :name
