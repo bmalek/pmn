@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :calls
+
   map.resources :txts
 
   map.resources :coupons
