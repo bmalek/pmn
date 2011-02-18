@@ -12,7 +12,7 @@ class PbxController < ApplicationController
 
   def check
 
-    vc = {
+    voice = {
     :sid => params[:CallSid],
     :from => params[:From],
     :to => params[:To],
@@ -21,13 +21,21 @@ class PbxController < ApplicationController
     :body => params[:Digits]
     }
 
-    @call = Call.new(vc)
-    @call.save
+    @call = Call.new(voice)    
     
-    @digits = @call.body.to_s.split(//).join(', ')
+    @say_digits = @call.body.to_s.split(//).join(', ')
+
+    @flag = @call.match_coupon?(voice)
 
     respond_to do |format|
-        format.xml 
+        if @call.save and @flag
+        flash[:notice] = 'Message was successfully received.'
+        format.xml { @call }
+      else
+        flash[:notice] = 'Delivery failed.'
+        @redirect = TWILIO_CONFIG["base_url"].to_s + 'pbx/voice'
+        format.xml { @call }
+      end
     end
 
   end

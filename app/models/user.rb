@@ -43,12 +43,12 @@ class User < ActiveRecord::Base
 
   #INSTANCE METHODS*********************************************************
   def generate_challenge_code    
-    charset = %w{A B C D E F G H J K L M N P Q R T V W X Y Z}
-    self.challenge_code = (0...4).map{ charset.to_a[rand(charset.size)] }.join
+    charset = %w{ 1 2 3 4 5 6 7 8 9 0 } #%w{A B C D E F G H J K L M N P Q R T V W X Y Z}
+    self.challenge_code = (0...4).map{ Array(charset)[rand(charset.size)] }.join
   end
 
   def verify_response_code(challenge_code)
-    self.response_code.upcase! == challenge_code
+    self.response_code.upcase == challenge_code
   end
 
   def add_account_save

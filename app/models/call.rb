@@ -4,10 +4,10 @@ class Call < ActiveRecord::Base
   #VALIDATIONS***************************************************************
   validates_presence_of     :to, :from, :sid
 
-  def match_coupon?(v)
+  def match_coupon?(voice)
     unless coupon_owner.nil?
       user = coupon_owner
-      message = user.messages.build(v) #<< Message.new(sms)
+      message = user.messages.build(voice) #<< Message.new(sms)
       message.save
       self.reply_message = message.discount
       return true
