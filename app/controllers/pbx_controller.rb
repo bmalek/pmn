@@ -24,7 +24,9 @@ class PbxController < ApplicationController
     @call = Call.new(vc)
     @call.save
     
-    params[:Digits].to_s.each_char { |chr| @digits += chr + ', '  }
+    @digits = @call.body.to_s
+
+    @digits.split(//).join(', ')
 
     respond_to do |format|
         format.xml 
