@@ -1,0 +1,6 @@
+<Response>
+    <Gather numDigits="4" action="http://high-stream-221.heroku.com/pbx/check">
+         <Pause length="60" />
+    </Gather>
+    <Hangup/>
+</Response>

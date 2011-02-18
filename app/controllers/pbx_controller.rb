@@ -24,7 +24,7 @@ class PbxController < ApplicationController
     @call = Call.new(vc)
     @call.save
 
-    @digits = params[:Digits]
+    @digits = '123' #params[:Digits]
 
     respond_to do |format|
         format.xml
