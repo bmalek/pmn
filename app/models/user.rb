@@ -2,7 +2,7 @@ class User < ActiveRecord::Base
 
   has_one :account #, :dependent => :destroy (DONT USE WITH BELONGS TO)
   has_and_belongs_to_many :roles
-  has_and_belongs_to_many :deals
+  #has_and_belongs_to_many :deals
   has_many  :messages
   has_many  :coupons #, :dependent => :destroy
 

@@ -21,7 +21,7 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.xml
   def show
-    #@user = User.find_by_id(session[:user_id]) 
+    @user = User.find_by_id(params[:id]) 
 
     respond_to do |format|
       format.html # show.html.erb
@@ -87,9 +87,9 @@ class UsersController < ApplicationController
   # DELETE /users/1
   # DELETE /users/1.xml
   def destroy
-    #@user = User.find_by_id(params[:id])
+    @user = User.find_by_id(params[:id])
     @user.destroy
-    reset_session
+    #reset_session
 
     respond_to do |format|
       format.html { redirect_to(users_url) }
