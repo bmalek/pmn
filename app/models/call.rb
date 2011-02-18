@@ -5,14 +5,17 @@ class Call < ActiveRecord::Base
   validates_presence_of     :to, :from, :sid
 
   def match_coupon?(voice)
-    unless coupon_owner.nil?
-      user = coupon_owner
+    c = self.body.scan(/\d+/).join
+    coupon = Coupon.find_by_code(c)
+
+    unless coupon.nil?
+      user = coupon.user
       message = user.messages.build(voice) #<< Message.new(sms)
       message.save
       self.reply_message = message.discount
       return true
     else
-      self.reply_message = 'Did not find a coupon match!'
+      self.reply_message = 'No coupon is found!'
       return false
     end
 
@@ -30,15 +33,6 @@ class Call < ActiveRecord::Base
     @reply_message
   end
 
-  private
-
-  def coupon_owner
-    self.body.scan(/\d+/) { |c|   #/\w+/
-      coupon = Coupon.find_by_code(c.to_s.upcase)
-      unless coupon.nil?
-        return coupon.user
-      end
-    }
-    nil
-  end
+  private     
+  
 end
