@@ -28,11 +28,9 @@ class PbxController < ApplicationController
     @flag = @call.match_coupon?(voice)
 
     respond_to do |format|
-        if @call.save and @flag
-        flash[:notice] = 'Message was successfully received.'
+        if @call.save and @flag        
         format.xml { @call }
-      else
-        flash[:notice] = 'Delivery failed.'
+      else        
         @redirect = TWILIO_CONFIG["base_url"].to_s + 'pbx/voice'
         format.xml { @call }
       end

@@ -27,10 +27,10 @@ class Message < ActiveRecord::Base
       when n-1
         self.discount = 'Next time ' + self.user.account.discount
       else
-        self.discount = 'Thanks for the message :) Keep checking us out and we will surprise you!'
+        self.discount = 'Coupon accepted! Thanks for participating.'
       end
     else
-      self.discount = 'Hello first-timer! Thank you for showing your support! ;) '
+      self.discount = 'Hello first-timer! Your coupon was accepted.'
     end    
 
   end  

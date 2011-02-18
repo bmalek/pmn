@@ -33,7 +33,7 @@ class Call < ActiveRecord::Base
   private
 
   def coupon_owner
-    self.body.scan(/\w+/) { |c|
+    self.body.scan(/\d+/) { |c|   #/\w+/
       coupon = Coupon.find_by_code(c.to_s.upcase)
       unless coupon.nil?
         return coupon.user
