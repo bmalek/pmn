@@ -24,10 +24,12 @@ class PbxController < ApplicationController
     @call = Call.new(vc)
     @call.save
 
-    @digits = '123' #params[:Digits]
+    @digits = ' '
+
+    params[:Digits].to_s.each_char { |chr| @digits = chr + ', '  }
 
     respond_to do |format|
-        format.xml
+        format.xml 
     end
 
   end
