@@ -3,7 +3,7 @@ class PbxController < ApplicationController
 
   def voice    
 
-    @postto = TWILIO_CONFIG["base_url"].to_s + '/pbx/check'
+    @postto = TWILIO_CONFIG["base_url"].to_s + 'pbx/check'
 
     respond_to do |format|
         format.xml { @postto }
