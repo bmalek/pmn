@@ -17,7 +17,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :categories
 
-  #map.resources :users
+  map.resources :users
 
   #map.resources :users, :collection => {:home => :get, :login => :post, :logout => :get}
 
@@ -46,7 +46,7 @@ ActionController::Routing::Routes.draw do |map|
     #user.resources :coupons
   #end
 
-  map.resources :users, :has_one => :account
+  #map.resources :users, :has_one => :account
   
   # Sample resource route with more complex sub-resources
   #   map.resources :products do |products|

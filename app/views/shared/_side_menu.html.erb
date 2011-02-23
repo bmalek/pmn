@@ -1,7 +1,6 @@
 <% unless session[:user_id].nil? %>
-<h3>Side Menu</h3>
 <ul>
-  <li><%= link_to 'My Account', user_account_path(@user) %></li>    
+  <li><%= link_to 'My Account', account_path( User.find_by_id(session[:user_id]).account ) %></li>
   <li><%= link_to 'Cell phones', :controller => 'messages', :action => 'index' %></li>  
   <li><%= link_to 'Available Coupons', :controller => 'coupons', :action => 'index' %></li>
 </ul>
