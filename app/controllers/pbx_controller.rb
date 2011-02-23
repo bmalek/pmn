@@ -38,7 +38,21 @@ class PbxController < ApplicationController
 
   end
 
-  def sms
+  def sms #EZtexting format
+
+    sms = {
+    :from => params[:PhoneNumber],
+    :body => params[:Message],
+    }
+    @txt = Txt.new(sms)      
+
+    respond_to do |format|
+      if @txt.save and @txt.match_coupon?(sms)        
+        format.any { render :text => @txt.reply_message.to_s }
+      else        
+        format.any { render :text => 'did not find your coupon' }
+      end
+    end
 
   end
 end

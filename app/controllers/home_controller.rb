@@ -1,6 +1,7 @@
 class HomeController < ApplicationController
 
   skip_before_filter :authorized?
+  skip_before_filter :verify_authenticity_token 
 
   # GET /home/index
   def index
@@ -100,5 +101,44 @@ class HomeController < ApplicationController
     end
 
   end
+
+  def search_number
+    require 'rubygems'
+    require 'crack'
+    require 'twiliolib'
+    api_version = TWILIO_CONFIG["api_version"]
+    account_sid = TWILIO_CONFIG["account_sid"]
+    auth_token = TWILIO_CONFIG["account_token"]
+
+    account = Twilio::RestAccount.new(account_sid, auth_token)
+    url = "/#{api_version}/Accounts/#{account_sid}/AvailablePhoneNumbers/US/Local.json"
+
+    search_params = {}
+    search_params['InPostalCode'] = params['postal_code'] unless params['postal_code'].blank?
+    search_params['NearNumber'] = params['near_number'] unless params['near_number'].blank?
+    search_params['Contains'] = params['contains'] unless params['contains'].blank?
+
+    @http_response = account.request(url, 'GET', search_params)
+
+    @response = Crack::JSON.parse @http_response.body
+    
+  end
+
+
+  def buy_number
+    require 'rubygems'
+    require 'twiliolib'
+    require 'crack'
+    api_version = TWILIO_CONFIG["api_version"]
+    account_sid = TWILIO_CONFIG["account_sid"]
+    auth_token = TWILIO_CONFIG["account_token"]
+
+    account = Twilio::RestAccount.new(account_sid, auth_token)
+    url = "/#{api_version}/Accounts/#{account_sid}/IncomingPhoneNumbers.json"
+    @http_response = account.request(url, 'POST', {'PhoneNumber' => params[:PhoneNumber]})
+
+    @response = Crack::JSON.parse @http_response.body
   
+  end
+      
 end
