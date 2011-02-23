@@ -4,7 +4,7 @@ class Txt < ActiveRecord::Base
   #attr_accessible
 
   #VALIDATIONS***************************************************************
-  validates_presence_of     :to, :from  
+  validates_presence_of     :from 
 
   def twilio_send_sms
     require 'twiliolib'
@@ -54,6 +54,24 @@ class Txt < ActiveRecord::Base
 
   end
 
+
+  def match_sms_coupon?(sms)
+
+    self.body.scan(/\w+/) { |c|
+      coupon = Coupon.find_by_code(c.to_s.upcase)
+      unless coupon.nil?
+        user = coupon.user
+        message = user.messages.build(sms) #<< Message.new(sms)
+        message.save
+        self.reply_message = message.discount
+        return true
+      end
+    }
+    self.reply_message = 'Did not find a coupon match!'
+    return false
+
+  end
+  
   #VIRTUAL ATTRIBUTES********************************************************
 
   # custom setter method (input to database) needed fot the controller
