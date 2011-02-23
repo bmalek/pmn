@@ -37,7 +37,7 @@ class Message < ActiveRecord::Base
   
   # checks if 12 hours has past since last save with the same number?
   def check_fresh?
-    past_messages = self.user.messages.find_by_from(:all, self.from)
+    past_messages = self.user.messages.find_all_by_from( self.from )
     unless past_messages.nil?
       past_messages.each { |m|
         if 2.minutes.since( m.created_at.gmtime ) > Time.now.gmtime

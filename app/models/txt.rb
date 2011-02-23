@@ -55,13 +55,13 @@ class Txt < ActiveRecord::Base
   end
 
 
-  def match_sms_coupon?(sms)
+  def match_sms_coupon?
 
     self.body.scan(/\w+/) { |c|
       coupon = Coupon.find_by_code(c.to_s.upcase)
       unless coupon.nil?
         user = coupon.user
-        message = user.messages.build(sms) #<< Message.new(sms)
+        message = user.messages.build( :from => self.from, :body => self.body ) #<< Message.new(sms)
         message.save
         self.reply_message = message.discount
         return true
