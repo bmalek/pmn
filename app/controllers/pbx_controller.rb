@@ -49,7 +49,7 @@ class PbxController < ApplicationController
     respond_to do |format|
       #if @txt.save # and @txt.match_sms_coupon?(sms)
       @txt.save
-        format.any { render :text => sms[:from].to_s + ' msg: ' + sms[:body].to_s }
+      format.any { render :text => @txt.body }
       #else
        # format.any { render :text => 'Wrong coupon, try again!' }
       # end
