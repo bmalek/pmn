@@ -41,8 +41,8 @@ class PbxController < ApplicationController
   def sms #EZtexting format
 
     sms = {
-    :from => params['from'], #PhoneNumber
-    :body => params['message'] #Message
+    :from => params['from'] || params['PhoneNumber'], #PhoneNumber
+    :body => params['message'] || params['Message'] #Message
     }
     @txt = Txt.new(sms)      
 
